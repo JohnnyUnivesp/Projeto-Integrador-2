@@ -29,20 +29,23 @@ public class CadastrarController {
     @Get("")
     public void cadastrar() {
         // Exibe a tela de cadastro
-    }
+        }
 
     @IncludeParameters
     @Post("salvaUsuario")
     public void salvaUsuario(@Valid Usuario usuario, String confirmaSenha) {
-        // O tipo de usuário já estará no objeto 'usuario'
+
+        // Validar se as senhas são iguais
+        boolean asSenhasSaoIguais = usuario.getSenha().equals(confirmaSenha);
+        validator.ensure(asSenhasSaoIguais, new SimpleMessage("erro", "As senhas não são iguais"));
+
+        // Validar se o tipo de usuário foi selecionado corretamente
         boolean tipoValido = usuario.getTipoUsuario() != null && (usuario.getTipoUsuario().equals("ADMIN") || usuario.getTipoUsuario().equals("USER"));
         validator.ensure(tipoValido, new SimpleMessage("erro", "Selecione um tipo de usuário válido"));
-
        
         // Se houver erro, retorna para a página de cadastro
         validator.onErrorRedirectTo(this).cadastrar();
 
-       
         // Salvar o usuário no banco de dados
         usuarioDAO.insert(usuario);
 
