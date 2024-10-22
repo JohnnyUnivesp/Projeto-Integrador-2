@@ -1,5 +1,3 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-pageEncoding="UTF-8"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib tagdir="/WEB-INF/tags/" prefix="tag"%>
 
@@ -7,7 +5,6 @@ pageEncoding="UTF-8"%>
 <html lang="pt-br">
 
 <head>
-  <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
   <meta name="description" content="" />
   <meta name="author" content="" />
@@ -27,6 +24,23 @@ pageEncoding="UTF-8"%>
 <body id="page-top">
   <!-- Navigation-->
   <tag:menu-superior></tag:menu-superior>
+  <div vw class="enabled">
+	    	<div vw-access-button class="active"></div>
+	    	<div vw-plugin-wrapper>
+	      		<div class="vw-plugin-top-wrapper"></div>
+	    </div>
+	  	</div>
+	  	<script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
+	  	<script>
+	    	new window.VLibras.Widget('https://vlibras.gov.br/app');
+	  	</script>
+    	
+    	<style>
+			width: 40%!important;    	
+    		border-radius: 50px!important;
+    		border: 5px solid #ffffff1f!important;
+    	</style>
+  
   <!-- Masthead-->
   <header class="masthead" id="login">
     <div class="container"></div>
@@ -73,7 +87,7 @@ pageEncoding="UTF-8"%>
 		                </button>
 		            </c:when>
 		            <c:otherwise>
-		                <!-- BotÃ£o nÃ£o aparece para usuÃ¡rio USER -->
+		                <!-- Botão não aparece para usuário USER -->
 		            </c:otherwise>
 		        </c:choose>
 		    </c:if>
@@ -82,8 +96,12 @@ pageEncoding="UTF-8"%>
         </form>
       </div>
       <div class="row">
-      
+      	
+      	<c:set var="contador" value="0" />
+      	
       	<c:forEach var="produto" items="${produtos}">   
+      	
+      	<c:set var="contador" value="${contador + 1}" />
       	
       	 <!-- Inicio do Card 1-->      	
         <div class="col-lg-4 col-sm-6 mb-4">
@@ -127,15 +145,33 @@ pageEncoding="UTF-8"%>
                         ${produto.descricao}
                       </p>
                       <ul class="list-inline">
-                        <li>Valido atÃ©:  ${produto.dataValidadeFormatada}</li>                     
+                        <li>Estoque disponível: ${produto.quantidadeEstoque} unidade(s)</li>                     
                       </ul>
                       <div class="d-flex justify-content-center">
-                        <div class="form-group mb-md-0 ml-2">
-                          <button class="btn btn-primary btn-xl text-uppercase js-scroll-trigger">Comprar</button>
-                        </div>
-                        <div class="form-group mb-md-0 ml-2">
-                          <button class="btn btn-info btn-xl text-uppercase js-scroll-trigger" onclick="window.location.href='formproduto.html#formproduto'" >Editar</button>
-                        </div>
+                      	<c:if test="${usuarioLogado != null && usuarioLogado.tipoUsuario == 'USER'}">
+	                        <div class="form-group mb-md-0 ml-2">
+	                         	<button class="btn btn-primary" onclick="adicionarAoCarrinho(${produto.id}, 1)">Adicionar ao Carrinho</button>
+	
+								<script>
+								function adicionarAoCarrinho(produtoId, quantidade) {
+								    $.post("<c:url value="carrinho/adicionar"/>", { produtoId: produtoId, quantidade: quantidade }, function() {
+								        alert("Produto adicionado ao carrinho!");
+								    });
+								}
+								</script>
+	                       	</div>
+	                     </c:if>
+	                     <c:if test="${usuarioLogado == null}">
+	                        <div class="form-group mb-md-0 ml-2">
+	                         	<a href="<c:url value='cadastrar'/>"><button class="btn btn-primary">Adicionar ao Carrinho</button></a>
+	                       	</div>
+	                     </c:if> 
+						<c:if test="${usuarioLogado != null && usuarioLogado.tipoUsuario == 'ADMIN'}">                        
+	                        <div class="form-group mb-md-0 ml-2">
+	                          <button class="btn btn-info btn-xl text-uppercase js-scroll-trigger" onclick="window.location.href='formproduto?produto.id=${produto.id}'" >Editar</button>
+	                          <button class="btn btn-danger btn-xl text-uppercase js-scroll-trigger" onclick="window.location.href='deletaproduto/${produto.id}'" >Deletar</button>
+	                        </div>
+                        </c:if>
                       </div>
                       
                     </div>
@@ -149,7 +185,7 @@ pageEncoding="UTF-8"%>
 		
 		</c:forEach>
       </div>
-      <p>Total de Produtos: ${totalProdutos}</p>
+      <p>Total de Produtos: ${contador}</p>
     </div>
   </section>
 

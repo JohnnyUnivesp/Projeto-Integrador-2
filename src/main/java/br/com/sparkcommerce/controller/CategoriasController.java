@@ -10,10 +10,8 @@ import br.com.caelum.vraptor.Get;
 import br.com.caelum.vraptor.Path;
 import br.com.caelum.vraptor.Result;
 import br.com.olimposistema.aipa.dao.DAO;
-import br.com.olimposistema.aipa.service.Util;
 import br.com.sparkcommerce.interceptors.SomenteLogado;
 import br.com.sparkcommerce.model.Categoria;
-import br.com.sparkcommerce.model.Usuario;
 
 @Controller
 @Path("categorias")

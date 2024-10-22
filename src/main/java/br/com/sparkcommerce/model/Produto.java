@@ -1,15 +1,10 @@
 package br.com.sparkcommerce.model;
 
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -20,7 +15,6 @@ import org.hibernate.validator.constraints.NotEmpty;
 import br.com.olimposistema.aipa.dao.filter.FiltrableName;
 import br.com.olimposistema.aipa.imagem.Imagem;
 import br.com.olimposistema.aipa.model.Model;
-import br.com.sparkcommerce.rn.ConverteDataDeEnParaCalendar;
 import br.com.sparkcommerce.rn.FormataDeDoubleParaReais;
 
 @Entity
@@ -39,11 +33,11 @@ public class Produto extends Model {
 	@ManyToOne @NotNull(message = "{produto.categoria.notnull}")
 	private Categoria categoria;
 	
-	@Temporal(TemporalType.DATE) @NotNull(message = "{produto.dataValidade.notnull}")
-	private Calendar dataValidade;
+	@NotNull(message = "Quantidade de estoque não pode ser nula.")
+	@Min(value = 1, message = "Quantidade de estoque deve ser maior que zero.")
+	private Integer quantidadeEstoque;
 	
-	
-	@OneToOne(cascade = {CascadeType.PERSIST,CascadeType.MERGE,CascadeType.REMOVE},fetch = FetchType.EAGER,orphanRemoval = true)
+	@OneToOne(cascade = {CascadeType.PERSIST,CascadeType.MERGE},fetch = FetchType.EAGER)
 	private Imagem imagem;
 
 	public String getNome() {
@@ -83,31 +77,20 @@ public class Produto extends Model {
 		this.categoria = categoria;
 	}
 
-	public Calendar getDataValidade() {
-		return dataValidade;
-	}
-	
-	public String getDataValidadeFormatada() {
-		String dataFormatada = new SimpleDateFormat("dd/MM/yyyy").format(dataValidade.getTime());
-		return dataFormatada;
-	}
-
-	public void setDataValidade(Calendar dataValidade) {
-		this.dataValidade = dataValidade;
-	}
-	
-	public void setDataValidadeEn(String data) {
-		if(data == null) return;	
-		this.dataValidade = new ConverteDataDeEnParaCalendar().executa(data);
-		
-	}
-
 	public Imagem getImagem() {
 		return imagem;
 	}
 
 	public void setImagem(Imagem imagem) {
 		this.imagem = imagem;
+	}
+
+	public Integer getQuantidadeEstoque() {
+		return quantidadeEstoque;
+	}
+
+	public void setQuantidadeEstoque(Integer quantidadeEstoque) {
+		this.quantidadeEstoque = quantidadeEstoque;
 	}
 	
 }

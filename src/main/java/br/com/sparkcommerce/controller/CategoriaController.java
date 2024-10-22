@@ -19,9 +19,17 @@ public class CategoriaController extends CrudRest<Categoria> {
 	@Inject
 	public CategoriaController(DAO<Categoria> dao) {
 		super(Categoria.class, dao);
-		this.dao = dao;
+		this.setDao(dao);
 	}
 	
 	@Deprecated public CategoriaController() {this(null);}
+
+	public DAO<Categoria> getDao() {
+		return dao;
+	}
+
+	public void setDao(DAO<Categoria> dao) {
+		this.dao = dao;
+	}
 	
 }

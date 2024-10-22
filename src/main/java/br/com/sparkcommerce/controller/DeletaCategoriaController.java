@@ -7,7 +7,7 @@ import br.com.caelum.vraptor.Get;
 import br.com.caelum.vraptor.Path;
 import br.com.caelum.vraptor.Result;
 import br.com.olimposistema.aipa.dao.DAO;
-import br.com.sparkcommerce.interceptors.SomenteLogado;
+import br.com.sparkcommerce.interceptors.SomenteAdmin;
 import br.com.sparkcommerce.model.Categoria;
 
 @Controller
@@ -18,7 +18,7 @@ public class DeletaCategoriaController {
 	@Inject Result result;
 	
 	@Get("/{categoria.id}")
-	@SomenteLogado
+	@SomenteAdmin
 	public void deletacategoria(Categoria categoria) {
 		categoriaDao.delete(categoria);
 		result.redirectTo(CategoriasController.class).categorias();
