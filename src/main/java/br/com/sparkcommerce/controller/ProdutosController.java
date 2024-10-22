@@ -28,9 +28,10 @@ public class ProdutosController {
 			
 		if(filtro != null) {
 			result.include("produtos",produtoDao.filter(filtro));
-			result.include("totalProdutos", produtoDao.filterTotal(filtro));
 		}
-		else result.include("produtos",produtoDao.selectAll());
+		else {
+			result.include("produtos",produtoDao.selectAll());
+			}
 	}
 
 }

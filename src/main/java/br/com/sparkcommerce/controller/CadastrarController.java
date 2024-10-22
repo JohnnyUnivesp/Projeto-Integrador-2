@@ -29,22 +29,22 @@ public class CadastrarController {
     @Get("")
     public void cadastrar() {
         // Exibe a tela de cadastro
-        }
+    }
 
     @IncludeParameters
     @Post("salvaUsuario")
     public void salvaUsuario(@Valid Usuario usuario, String confirmaSenha) {
-
+        
         // Validar se as senhas são iguais
         boolean asSenhasSaoIguais = usuario.getSenha().equals(confirmaSenha);
-        validator.ensure(asSenhasSaoIguais, new SimpleMessage("erro", "As senhas não são iguais"));
+        validator.ensure(asSenhasSaoIguais, new SimpleMessage("erro", "As senhas não conferem"));
+        
+		// Validar se o email já está cadastrado
+        boolean emailJaExiste = usuarioDAO.emailExiste(usuario.getEmail());
+        validator.ensure(!emailJaExiste, new SimpleMessage("erro", "O e-mail já está em uso. Por favor, escolha outro."));
 
-        // Validar se o tipo de usuário foi selecionado corretamente
-        boolean tipoValido = usuario.getTipoUsuario() != null && (usuario.getTipoUsuario().equals("ADMIN") || usuario.getTipoUsuario().equals("USER"));
-        validator.ensure(tipoValido, new SimpleMessage("erro", "Selecione um tipo de usuário válido"));
-       
-        // Se houver erro, retorna para a página de cadastro
-        validator.onErrorRedirectTo(this).cadastrar();
+        // Se houver erros, redireciona para o formulário de cadastro novamente
+        validator.onErrorUsePageOf(this).cadastrar();
 
         // Salvar o usuário no banco de dados
         usuarioDAO.insert(usuario);

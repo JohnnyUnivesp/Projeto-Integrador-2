@@ -13,6 +13,7 @@ import javax.persistence.criteria.JoinType;
 import javax.persistence.criteria.Root;
 
 import br.com.olimposistema.aipa.dao.DAO;
+import br.com.olimposistema.aipa.dao.IdInvalidoException;
 import br.com.sparkcommerce.model.Categoria;
 import br.com.sparkcommerce.model.Produto;
 
@@ -74,5 +75,17 @@ public class ProdutoDAO extends DAO<Produto> {
 		Long total = query.getSingleResult();
 		return total;
 		
+	}
+	
+	public Produto selectPorId(Produto produto) {
+	    return em.find(Produto.class, produto.getId());
+	}
+	
+	public void delete(Produto produto) {
+		if(produto!= null && produto.getId() < 1) {
+			throw new IdInvalidoException("Não foi Possível deletar pois o id é 0 ou inválido!  classe do registro:"+ produto.getClass().getSimpleName() + " id do registro: "+produto.getId());
+		}
+		produto = selectPorId(produto.getId());
+		em.remove(produto);
 	}
 }

@@ -1,12 +1,10 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" 
-	pageEncoding="UTF-8"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ taglib tagdir="/WEB-INF/tags/" prefix="tag"%>
 
 <!DOCTYPE html>
 <html lang="pt-br">
     <head>
-        <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
         <meta name="description" content="" />
         <meta name="author" content="" />
@@ -36,7 +34,12 @@
         <section class="page-section" id="formproduto">
             <div class="container">
                 <div class="text-center">
-                    <h2 class="section-heading text-uppercase">Novo Produto/Editar Produto</h2>
+                    <c:if test="${produto != null && produto.getId() > 0}">
+                	<h2 class="section-heading text-uppercase">Editar Produto</h2>
+                </c:if>
+                <c:if test="${produto == null || produto.getId() < 1}">
+                	<h2 class="section-heading text-uppercase">Novo Produto</h2>
+                </c:if>
                     
                 </div>
                  <c:if test="${not empty errors}">
@@ -46,47 +49,60 @@
                   	</c:forEach>
                 	</div>
               	</c:if>   
-                <form method="post" action="<c:url value="formproduto/salvaProduto"/>" enctype="multipart/form-data" accept-charset="UTF-8">
-                    <div class="row justify-content-md-center mb-5 text-center">
-                        <div class="col-md-12 align-self-center text-center">
-                            <div class="form-group input-login mx-auto">
-                                <input name="produto.imagem.file" id="input-id" type="file" class="file" data-preview-file-type="text" required="required">
-                                 <p class="help-block text-danger"></p>
-                             </div>
-                            <div class="form-group input-login mx-auto">
-                                <input name="produto.nome" value="${produto.nome}" class="form-control" id="email" type="text" placeholder="Nome *" required="required" data-validation-required-message="Digite o Nome do Produto." />
-                                <p class="help-block text-danger"></p>
-                            </div>
-                            <div class="form-group input-login mx-auto">
-                                <input name="produto.valor" value="${produto.valor}" class="form-control money" id="valor" type="tel" placeholder="Valor em R$*" required="required" data-validation-required-message="Digite o Valor do Produto." />                            
-                                <p class="help-block text-danger"></p>
-                            </div>
-                            <div class="form-group input-login mx-auto">
-                               
-                               <textarea name="produto.descricao" class="form-control" placeholder="Descreva o Produto">${produto.descricao}</textarea>
-                              
-                                <p class="help-block text-danger"></p>
-                            </div>
-                            <div class="form-group">
-                                <select name="produto.categoria.id" class="form-control input-login mx-auto" id="email" required="required"
-                                  data-validation-required-message="Please enter your email address.">
-                                  
-                                  <c:forEach var="categoria" items="${categorias}">
-                                  	<option value="${categoria.id}">${categoria.nome}</option>
-                                  </c:forEach>                                                           
-                                  
-                                </select>
-                                <p class="help-block text-danger"></p>
-                            </div>
-                            <div class="form-group input-login mx-auto">
-                                <input name="produto.dataValidadeEn" value="${produto.dataValidade} " class="form-control date-br" id="valor" type="date" placeholder="Data Validade *" data-validation-required-message="Digite a data de Validade do Produto" required="required" />
-                                <p class="help-block text-danger"></p>
-                            </div>
-                           
-                            <button type="submit" class="btn btn-primary btn-xl text-uppercase js-scroll-trigger" >Salvar</button>
-                        </div> 
-                    </div>
-                </form>
+                <form method="post" action="<c:url value="formproduto/salvaProduto"/>" enctype="multipart/form-data">
+				    <input type="hidden" name="produto.id" value="${produto.id}">
+				    <input type="hidden" name="produto.ativo" value="${produto.isAtivo()}">
+				
+				    <!-- Exibe o nome da imagem atual, caso exista -->
+				    <c:if test="${produto.imagem != null}">
+				        <div class="form-group input-login mx-auto">
+				            <label>Imagem atual: ${produto.imagem.nome}</label>
+				            <!-- Campo oculto para manter o nome da imagem atual -->
+				            <input type="hidden" name="imagem.nome" value="${imagem.nome}">
+				            <input type="hidden" name="imagem.id" value="${imagem.id}">
+				        </div>
+				    </c:if>
+				
+			        <c:if test="${produto.imagem == null}">
+					    <div class="form-group input-login mx-auto">
+					        <!-- Campo de upload para nova imagem -->
+					        <input name="produto.imagem.file" id="input-id" type="file" class="file" data-preview-file-type="text" required="required">
+					        <p class="help-block text-danger"></p>
+					    </div>
+					</c:if>
+				
+				    <div class="form-group input-login mx-auto">
+				        <input name="produto.nome" value="${produto.nome}" class="form-control" id="email" type="text" placeholder="Nome *" required="required" data-validation-required-message="Digite o Nome do Produto." />
+				        <p class="help-block text-danger"></p>
+				    </div>
+				
+				    <div class="form-group input-login mx-auto">
+				        <input name="produto.valor" value="<fmt:formatNumber value="${produto.valor}" type="number" minFractionDigits="2" maxFractionDigits="2"/>" class="form-control money" id="valor" type="tel" placeholder="Valor em R$*" required="required" data-validation-required-message="Digite o Valor do Produto." />                            
+				        
+				        <p class="help-block text-danger"></p>
+				    </div>
+				
+				    <div class="form-group input-login mx-auto">
+				        <textarea name="produto.descricao" class="form-control" placeholder="Descreva o Produto">${produto.descricao}</textarea>
+				        <p class="help-block text-danger"></p>
+				    </div>
+				
+				    <div class="form-group">
+				        <select name="produto.categoria.id" class="form-control input-login mx-auto" id="email" required="required" data-validation-required-message="Please enter your email address.">
+				            <c:forEach var="categoria" items="${categorias}">
+				                <option value="${categoria.id}" <c:if test="${categoria.id == produto.categoria.id}">selected</c:if>>${categoria.nome}</option>
+				            </c:forEach>                                                           
+				        </select>
+				        <p class="help-block text-danger"></p>
+				    </div>
+				
+					    <div class="form-group input-login mx-auto">
+						    <input name="produto.quantidadeEstoque" value="${produto.quantidadeEstoque}" class="form-control" id="quantidade" type="number" placeholder="Quantidade de Estoque" required="required" data-validation-required-message="Informe a quantidade de estoque" />
+						    <p class="help-block text-danger"></p>
+						</div>
+				
+				    <button type="submit" class="btn btn-primary btn-xl text-uppercase js-scroll-trigger">Salvar</button>
+				</form>
             </div>
         </section>
     

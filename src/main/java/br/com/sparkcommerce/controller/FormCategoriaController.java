@@ -12,9 +12,9 @@ import br.com.caelum.vraptor.interceptor.IncludeParameters;
 import br.com.caelum.vraptor.validator.Validator;
 import br.com.olimposistema.aipa.dao.DAO;
 import br.com.olimposistema.aipa.service.Util;
+import br.com.sparkcommerce.interceptors.SomenteAdmin;
 import br.com.sparkcommerce.interceptors.SomenteLogado;
 import br.com.sparkcommerce.model.Categoria;
-import br.com.sparkcommerce.model.Usuario;
 
 @Controller
 @Path("formcategoria")
@@ -24,7 +24,7 @@ public class FormCategoriaController {
 	@Inject DAO<Categoria> categoriaDao;
 	@Inject Result result;
 	
-	@Get("") @SomenteLogado
+	@Get("") @SomenteAdmin
 	public void formcategoria( Categoria categoria) {
 		if(Util.isNotNull(categoria) && Util.isPositivo(categoria.getId())) {
 			Categoria categoriaDoBanco = categoriaDao.selectPorId(categoria);

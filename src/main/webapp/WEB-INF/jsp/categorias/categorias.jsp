@@ -1,12 +1,9 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-pageEncoding="UTF-8"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib tagdir="/WEB-INF/tags/" prefix="tag"%>
 
 <!DOCTYPE html>
 <html lang="pt-br">
     <head>
-        <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
         <meta name="description" content="" />
         <meta name="author" content="" />
@@ -44,9 +41,9 @@ pageEncoding="UTF-8"%>
                 <table class="table table-hover">
                     <thead>
                       <tr>
-                         <th scope="col" class="d-none">#</th> <!--  <th scope="col">#</th> Oculta o cabeÃ§alho da coluna de ID -->
+                         <th scope="col" class="d-none">#</th> <!--  <th scope="col">#</th> Oculta o cabeçalho da coluna de ID -->
                         <th scope="col">Nome</th>
-                        <th scope="col">AÃ§Ãµes</th>
+                        <th scope="col">Ações</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -76,7 +73,7 @@ pageEncoding="UTF-8"%>
    					}
 
    					.table th, .table td {
-       					border: none !important; /* Remove todas as bordas das cÃ©lulas */
+       					border: none !important; /* Remove todas as bordas das células */
    					}
 				</style>
             </div>
