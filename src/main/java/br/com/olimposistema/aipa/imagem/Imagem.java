@@ -1,21 +1,14 @@
 package br.com.olimposistema.aipa.imagem;
 
 import java.util.Date;
-
 import javax.enterprise.inject.spi.CDI;
-import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.PrePersist;
 import javax.persistence.PreRemove;
 import javax.persistence.PreUpdate;
 import javax.persistence.Transient;
 import javax.validation.constraints.Size;
-
 import org.hibernate.validator.constraints.NotEmpty;
-
 import br.com.caelum.vraptor.environment.Environment;
 import br.com.caelum.vraptor.observer.upload.UploadedFile;
 import br.com.olimposistema.aipa.anexo.DeletaArquivoDoDisco;

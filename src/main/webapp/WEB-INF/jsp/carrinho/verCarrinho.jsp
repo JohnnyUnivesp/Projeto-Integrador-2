@@ -53,7 +53,7 @@
                         <p>Quantidade: ${item.quantidade}</p>
                         <p>Preço unitário: ${item.produto.valorMoney}</p>
 						<!-- Exibir o preço total diretamente -->
-    					<p>Preço total: R$ ${item.precoTotal}</p>
+    					<p>Preço total: R$ <fmt:formatNumber value="${item.precoTotal}" type="number" minFractionDigits="2" maxFractionDigits="2"/></p>
                     </div>
                     <div class="col-md-3 d-flex flex-column justify-content-center">
                         <form method="post" action="carrinho/atualizarQuantidade" class="mb-2">

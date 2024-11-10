@@ -11,7 +11,6 @@ import br.com.olimposistema.aipa.model.Model;
 @Entity
 public class Categoria extends Model {
 	
-	
 	@NotEmpty @Size(min = 3, max = 100, message = "{categoria.nome.size}")
 	private String nome;
 	

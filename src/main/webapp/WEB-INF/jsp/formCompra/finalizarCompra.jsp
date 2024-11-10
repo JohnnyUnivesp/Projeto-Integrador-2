@@ -154,7 +154,15 @@
     <script>
         $(document).ready(function () {
             // Máscara para o telefone
-            $('#numero').mask('(00) 00000-0000');
+            var options = {
+			  onKeyPress: function(cep, e, field, options) {
+			    var masks = ['(00) 0000-00000', '(00) 00000-0000'];
+			    var mask = (cep.length > 14) ? masks[1] : masks[0];
+			    $('#numero').mask(mask, options);
+			  }
+			};
+			
+			$('#numero').mask('(00) 0000-00000', options);
             // Máscara para o CEP
             $('#cep').mask('00000-000');
 

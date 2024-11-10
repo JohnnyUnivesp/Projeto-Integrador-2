@@ -77,6 +77,10 @@ public class ProdutoDAO extends DAO<Produto> {
 		
 	}
 	
+	public Produto selectPorIdLong(Long id) {
+	    return em.find(Produto.class, id.intValue());
+	}
+	
 	public Produto selectPorId(Produto produto) {
 	    return em.find(Produto.class, produto.getId());
 	}
@@ -87,5 +91,14 @@ public class ProdutoDAO extends DAO<Produto> {
 		}
 		produto = selectPorId(produto.getId());
 		em.remove(produto);
+	}
+	
+	public List<Produto> buscarProdutosAleatoriosPorCategoria(Long categoriaId) {
+		int limite = 4;
+		int intCategoriaId = categoriaId.intValue();
+	    return em.createQuery("SELECT p FROM Produto p WHERE p.categoria.id = :categoriaId ORDER BY RANDOM()", Produto.class)
+	             .setParameter("categoriaId", intCategoriaId)
+	             .setMaxResults(limite)
+	             .getResultList();
 	}
 }

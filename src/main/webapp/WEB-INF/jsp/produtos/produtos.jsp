@@ -10,19 +10,15 @@
   <meta name="author" content="" />
   <title>E-Commerce - Produtos</title>
   <link rel="icon" type="image/x-icon" href="assets/img/favicon.ico" />
-  <!-- Font Awesome icons (free version)-->
   <script src="https://use.fontawesome.com/releases/v5.15.1/js/all.js" crossorigin="anonymous"></script>
-  <!-- Google fonts-->
   <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css" />
   <link href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic,700italic" rel="stylesheet"
     type="text/css" />
   <link href="https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700" rel="stylesheet" type="text/css" />
-  <!-- Core theme CSS (includes Bootstrap)-->
   <link href="css/styles.css" rel="stylesheet" />
 </head>
 
 <body id="page-top">
-  <!-- Navigation-->
   <tag:menu-superior></tag:menu-superior>
   <div vw class="enabled">
 	    	<div vw-access-button class="active"></div>
@@ -41,11 +37,9 @@
     		border: 5px solid #ffffff1f!important;
     	</style>
   
-  <!-- Masthead-->
   <header class="masthead" id="login">
     <div class="container"></div>
   </header>
-  <!-- produtos-->
   <section class="page-section bg-light" id="portfolio">
     <div class="container">
       <div>
@@ -87,7 +81,6 @@
 		                </button>
 		            </c:when>
 		            <c:otherwise>
-		                <!-- Botão não aparece para usuário USER -->
 		            </c:otherwise>
 		        </c:choose>
 		    </c:if>
@@ -103,16 +96,17 @@
       	
       	<c:set var="contador" value="${contador + 1}" />
       	
-      	 <!-- Inicio do Card 1-->      	
-        <div class="col-lg-4 col-sm-6 mb-4">
-          <div class="portfolio-item">
+        <div class="col-lg-4 col-sm-6 mb-4" style="min-height: 350px;">
+          <div class="portfolio-item" style="background-color: #ffffff;">
             <a class="portfolio-link" data-toggle="modal" href="#portfolioModal${produto.id}">
               <div class="portfolio-hover">
                 <div class="portfolio-hover-content">
                   <i class="fas fa-plus fa-3x"></i>
                 </div>
               </div>
-              <img class="img-fluid" src="img/get/${produto.imagem.nome}" alt="" />
+				<div class="d-flex justify-content-center">
+                <img class="img-fluid" style="height: 200px; object-fit: cover;" src="img/get/${produto.imagem.nome}" alt="" />
+            </div>            
             </a>
             <div class="portfolio-caption">
               <div class="portfolio-caption-heading">${produto.valorMoney}</div>
@@ -122,9 +116,7 @@
             </div>
           </div>
         </div>
-		<!-- Fim do Card 1--> 
 
-        <!-- Modal 1-->
         <div class="portfolio-modal modal fade" id="portfolioModal${produto.id}" tabindex="-1" role="dialog" aria-hidden="true">
           <div class="modal-dialog mx-auto">
             <div class="modal-content">
@@ -135,7 +127,6 @@
                 <div class="row justify-content-center">
                   <div class="col-lg-8">
                     <div class="modal-body">
-                      <!-- Project Details Go Here-->
                       <img class="img-fluid d-block mx-auto img-modal" src="img/get/${produto.imagem.nome}" alt="" />
                       <h2 class="text-uppercase">${produto.valorMoney}</h2>
                       <p class="item-intro text-muted">
@@ -181,7 +172,6 @@
             </div>
           </div>
         </div>
-		<!-- Fim do Model -->
 		
 		</c:forEach>
       </div>
@@ -191,15 +181,11 @@
 
   <tag:footer></tag:footer>
   
-  <!-- Bootstrap core JS-->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"></script>
-  <!-- Third party plugin JS-->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js"></script>
-  <!-- Contact form JS-->
   <script src="assets/mail/jqBootstrapValidation.js"></script>
   <script src="assets/mail/contact_me.js"></script>
-  <!-- Core theme JS-->
   <script src="js/scripts.js"></script>
   <script></script>
 </body>

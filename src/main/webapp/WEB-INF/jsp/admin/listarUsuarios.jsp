@@ -96,7 +96,7 @@
                 </tbody>
             </table>
 
-			<div>
+			<div style="display:flex;justify-content:center">
 			    <c:if test="${paginaAtual <= 1}">
 			        <span class="btn btn-secondary disabled" style="pointer-events: none; opacity: 0.6;">Anterior</span>
 			    </c:if>

@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import com.mercadopago.MercadoPagoConfig;
@@ -50,7 +49,7 @@ public class FormCompraController {
     
     @Post("enviarDados")
     public void enviarDados(String nome, String email, String tipoDocumento, String numero, 
-                            String cpf, String cep, String endereco, String enderecoN) {
+                            String cpfCnpj, String cep, String endereco, String enderecoN) {
     	Carrinho carrinho = (Carrinho) session.getAttribute("carrinho");
     	
     	MercadoPagoConfig.setAccessToken("APP_USR-7739258657737147-101913-7a661f0aec0e9b777ba06e1f7b3139d0-157689435");
@@ -60,12 +59,6 @@ public class FormCompraController {
 
         // Configurar os itens do carrinho
         List<PreferenceItemRequest> items = new ArrayList<>();
-        
-        if (carrinho == null) {
-            System.out.println("Carrinho está vazio ou não foi inicializado.");
-        } else {
-            System.out.println("Carrinho contém " + carrinho.getItens().size() + " itens.");
-        }
         
         for (ItemCarrinho item : carrinho.getItens()) {
         	    PreferenceItemRequest itemRequest = PreferenceItemRequest.builder()
@@ -82,27 +75,27 @@ public class FormCompraController {
         	PreferencePayerRequest payer = PreferencePayerRequest.builder()
                     .name(nome)
                     .email(email)
-                    .phone(PhoneRequest.builder().areaCode("55").number(numero).build())
-                    .identification(IdentificationRequest.builder().type(tipoDocumento).number(cpf).build())
+                    .phone(PhoneRequest.builder().areaCode("+55").number(numero).build())
+                    .identification(IdentificationRequest.builder().type(tipoDocumento).number(cpfCnpj).build())
                     .address(AddressRequest.builder().zipCode(cep).streetName(endereco).streetNumber(enderecoN).build())
                     .build();    
         	
         	PreferenceRequest preferenceRequest = PreferenceRequest.builder()
 		        	.items(items)
 		        	.backUrls(PreferenceBackUrlsRequest.builder()
-		                    .success("/success")
-		                    .failure("/failure")
-		                    .pending("/pending")
+		                    .success("https://ed4e-179-125-31-226.ngrok-free.app/sparkcommerce/success")
+		                    .failure("https://ed4e-179-125-31-226.ngrok-free.app/sparkcommerce/failure")
+		                    .pending("https://ed4e-179-125-31-226.ngrok-free.app/sparkcommerce/pending")
 		                    .build())
 	                .payer(payer)
 	                .autoReturn("all")
 	                .binaryMode(true)
+	                .notificationUrl("https://ed4e-179-125-31-226.ngrok-free.app/sparkcommerce/notifications")
 			        .build();
 		
         	try {
 		    Preference preference = client.create(preferenceRequest);
 	        // Redirecionar para a URL de pagamento do Mercado Pago
-		    System.out.println(preferenceRequest);
 	        result.redirectTo(preference.getInitPoint());
 		} catch (MPApiException e) {
 		    // Tratamento de exceção da API do Mercado Pago

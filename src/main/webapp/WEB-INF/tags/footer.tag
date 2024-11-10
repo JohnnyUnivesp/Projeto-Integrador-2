@@ -1,6 +1,3 @@
- <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-  
- 
  <!-- Footer-->
  <footer class="footer py-4">
      <div class="container">

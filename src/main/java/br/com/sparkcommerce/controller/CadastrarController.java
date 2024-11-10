@@ -42,9 +42,9 @@ public class CadastrarController {
 		// Validar se o email já está cadastrado
         boolean emailJaExiste = usuarioDAO.emailExiste(usuario.getEmail());
         validator.ensure(!emailJaExiste, new SimpleMessage("erro", "O e-mail já está em uso. Por favor, escolha outro."));
-
+        
         // Se houver erros, redireciona para o formulário de cadastro novamente
-        validator.onErrorUsePageOf(this).cadastrar();
+        validator.onErrorRedirectTo(this).cadastrar();
 
         // Salvar o usuário no banco de dados
         usuarioDAO.insert(usuario);

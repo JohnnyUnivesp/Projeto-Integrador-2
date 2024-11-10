@@ -25,7 +25,6 @@ public class AdminController {
     @Get("") @SomenteAdmin
     public void listarUsuarios(int page, String filtro) {
         if (page == 0) {page = 1;}
-    	// Paginação - Exibe 20 usuários por página
         int limite = 20;
         List<Usuario> usuarios;
         int totalUsuarios;
