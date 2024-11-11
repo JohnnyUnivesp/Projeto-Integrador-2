@@ -1,0 +1,1 @@
+java -Djava.awt.headless=true -jar target/sparkcommerce.war
