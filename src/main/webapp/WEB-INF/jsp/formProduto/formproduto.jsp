@@ -89,6 +89,7 @@
 				
 				    <div class="form-group">
 				        <select name="produto.categoria.id" class="form-control input-login mx-auto" id="email" required="required" data-validation-required-message="Please enter your email address.">
+				            	<option value="">Selecione a categoria</option>
 				            <c:forEach var="categoria" items="${categorias}">
 				                <option value="${categoria.id}" <c:if test="${categoria.id == produto.categoria.id}">selected</c:if>>${categoria.nome}</option>
 				            </c:forEach>                                                           

@@ -19,6 +19,7 @@ import br.com.olimposistema.aipa.service.Util;
 import br.com.sparkcommerce.dao.BannerDAO;
 import br.com.sparkcommerce.dao.ConfiguracaoDAO;
 import br.com.sparkcommerce.dao.ProdutoDAO;
+import br.com.sparkcommerce.interceptors.SomenteAdmin;
 import br.com.sparkcommerce.model.Banner;
 import br.com.sparkcommerce.model.Categoria;
 import br.com.sparkcommerce.model.Configuracao;
@@ -89,7 +90,7 @@ public class IndexController {
 				.getResultList();
 	}
 	
-	@Get("editarBanners")
+	@Get("editarBanners") @SomenteAdmin
     public void editarBanners(Banner banner) {
         // Carregar todos os banners para exibição na página
         result.include("banners", bannerDao.buscarTodos());

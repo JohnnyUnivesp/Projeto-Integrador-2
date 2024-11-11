@@ -1,6 +1,7 @@
 package br.com.sparkcommerce.controller;
 
 import javax.inject.Inject;
+import javax.servlet.http.HttpSession;
 
 import br.com.caelum.vraptor.Controller;
 import br.com.caelum.vraptor.Get;
@@ -10,11 +11,14 @@ import br.com.caelum.vraptor.Result;
 public class PagamentoController{
 	
 	@Inject Result result;
+	@Inject HttpSession session;
 	
 	@Get("success")
 	public void success() {	    
-	    // Redireciona para a página de sucesso
+		session.removeAttribute("carrinho"); 
+		// Redireciona para a página de sucesso
 	    result.forwardTo("/WEB-INF/jsp/pagamento/success.jsp");
+	    
 	}
 
     @Get("failure")
@@ -25,6 +29,7 @@ public class PagamentoController{
 
     @Get("pending")
     public void pending() {
+    	session.removeAttribute("carrinho"); 
     	// Redireciona para a página de pendente
     	result.forwardTo("/WEB-INF/jsp/pagamento/pending.jsp");
     }

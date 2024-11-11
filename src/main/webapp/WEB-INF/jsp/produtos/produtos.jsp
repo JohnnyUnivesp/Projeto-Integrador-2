@@ -117,62 +117,47 @@
           </div>
         </div>
 
-        <div class="portfolio-modal modal fade" id="portfolioModal${produto.id}" tabindex="-1" role="dialog" aria-hidden="true">
-          <div class="modal-dialog mx-auto">
-            <div class="modal-content">
-              <div class="close-modal" data-dismiss="modal">
-                <img src="assets/img/close-icon.svg" alt="Close modal" />
-              </div>
-              <div class="container">
-                <div class="row justify-content-center">
-                  <div class="col-lg-8">
-                    <div class="modal-body">
-                      <img class="img-fluid d-block mx-auto img-modal" src="img/get/${produto.imagem.nome}" alt="" />
-                      <h2 class="text-uppercase">${produto.valorMoney}</h2>
-                      <p class="item-intro text-muted">
-                        ${produto.nome}
-                      </p>
-                      <p>
-                        ${produto.descricao}
-                      </p>
-                      <ul class="list-inline">
-                        <li>Estoque disponível: ${produto.quantidadeEstoque} unidade(s)</li>                     
-                      </ul>
-                      <div class="d-flex justify-content-center">
-                      	<c:if test="${usuarioLogado != null && usuarioLogado.tipoUsuario == 'USER'}">
-	                        <div class="form-group mb-md-0 ml-2">
-	                         	<button class="btn btn-primary" onclick="adicionarAoCarrinho(${produto.id}, 1)">Adicionar ao Carrinho</button>
-	
-								<script>
-								function adicionarAoCarrinho(produtoId, quantidade) {
-								    $.post("<c:url value="carrinho/adicionar"/>", { produtoId: produtoId, quantidade: quantidade }, function() {
-								        alert("Produto adicionado ao carrinho!");
-								    });
-								}
-								</script>
-	                       	</div>
-	                     </c:if>
-	                     <c:if test="${usuarioLogado == null}">
-	                        <div class="form-group mb-md-0 ml-2">
-	                         	<a href="<c:url value='cadastrar'/>"><button class="btn btn-primary">Adicionar ao Carrinho</button></a>
-	                       	</div>
-	                     </c:if> 
-						<c:if test="${usuarioLogado != null && usuarioLogado.tipoUsuario == 'ADMIN'}">                        
-	                        <div class="form-group mb-md-0 ml-2">
-	                          <button class="btn btn-info btn-xl text-uppercase js-scroll-trigger" onclick="window.location.href='formproduto?produto.id=${produto.id}'" >Editar</button>
-	                          <button class="btn btn-danger btn-xl text-uppercase js-scroll-trigger" onclick="window.location.href='deletaproduto/${produto.id}'" >Deletar</button>
-	                        </div>
-                        </c:if>
-                      </div>
-                      
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-		
+			<div class="portfolio-modal modal fade" id="portfolioModal${produto.id}" tabindex="-1" role="dialog" aria-hidden="true">
+			    <div class="modal-dialog mx-auto" style="max-width: 700px;">
+			        <div class="modal-content">
+			            <div class="close-modal" data-dismiss="modal">
+			                <img src="assets/img/close-icon.svg" alt="Close modal" />
+			            </div>
+			            <div class="container">
+			                <div class="row justify-content-center">
+			                    <div class="col-lg-10">
+			                        <div class="modal-body p-4">
+			                            <img class="img-fluid d-block mx-auto img-modal mb-4" src="img/get/${produto.imagem.nome}" alt="${produto.nome}" />
+			                            <h2 class="text-uppercase text-center mb-3">${produto.valorMoney}</h2>
+			                            <p class="item-intro text-muted text-center mb-3">
+			                                ${produto.nome}
+			                            </p>
+			                            <hr />
+			                            <p class="product-description text-justify" style="white-space: pre-line;">
+			                                ${produto.descricao}
+			                            </p>
+			                            <ul class="list-inline mt-4">
+			                                <li>Estoque disponível: ${produto.quantidadeEstoque} unidade(s)</li>
+			                            </ul>
+			                            <div class="d-flex justify-content-center mt-4">
+			                                <c:if test="${usuarioLogado != null && usuarioLogado.tipoUsuario == 'USER'}">
+			                                    <button class="btn btn-primary" onclick="adicionarAoCarrinho(${produto.id}, 1)">Adicionar ao Carrinho</button>
+			                                </c:if>
+			                                <c:if test="${usuarioLogado == null}">
+			                                    <a href="<c:url value='cadastrar'/>"><button class="btn btn-primary">Adicionar ao Carrinho</button></a>
+			                                </c:if>
+			                                <c:if test="${usuarioLogado != null && usuarioLogado.tipoUsuario == 'ADMIN'}">
+			                                    <button class="btn btn-info ml-2" onclick="window.location.href='formproduto?produto.id=${produto.id}'">Editar</button>
+			                                    <button class="btn btn-danger ml-2" onclick="window.location.href='deletaproduto/${produto.id}'">Deletar</button>
+			                                </c:if>
+			                            </div>
+			                        </div>
+			                    </div>
+			                </div>
+			            </div>
+			        </div>
+			    </div>
+			</div>
 		</c:forEach>
       </div>
       <p>Total de Produtos: ${contador}</p>
@@ -180,7 +165,13 @@
   </section>
 
   <tag:footer></tag:footer>
-  
+  <script>
+    function adicionarAoCarrinho(produtoId, quantidade) {
+        $.post("<c:url value='/carrinho/adicionar'/>", { produtoId: produtoId, quantidade: quantidade }, function() {
+            alert("Produto adicionado ao carrinho!");
+        });
+    }
+</script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js"></script>
