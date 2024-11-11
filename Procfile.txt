@@ -1,1 +1,0 @@
-web: java -jar target/sparkcommerce-1.0.0.war
