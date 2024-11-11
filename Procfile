@@ -1,1 +1,1 @@
-web: java -jar target/sparkcommerce.war
+web: java -jar target/sparkcommerce.jar
